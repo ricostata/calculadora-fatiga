@@ -70,12 +70,13 @@ Se_prime = 0.5 * Sut
 Se = ka * kb * ke * Se_prime
 
 # 4. Concentración de Esfuerzos
-Kt = 1.72
-Kts = 1.35
-sq_a = 0.35
-q = 1.0 if r <= 0.01 else 1 / (1 + sq_a/np.sqrt(r))
-Kf = 1 + q * (Kt - 1)
-Kfs = 1 + q * (Kts - 1)
+Kt, Kts = 1.70, 1.45
+sqrt_a_b = 1.24 - 2.25e-3*Sut + 1.60e-6*Sut**2 - 4.11e-10*Sut**3      # flexión [√mm]
+sqrt_a_t = 0.958 - 1.83e-3*Sut + 1.43e-6*Sut**2 - 4.11e-10*Sut**3     # torsión [√mm]
+q  = 1.0 if r <= 0.01 else 1 / (1 + sqrt_a_b/np.sqrt(r))
+qs = 1.0 if r <= 0.01 else 1 / (1 + sqrt_a_t/np.sqrt(r))
+Kf  = 1 + q  * (Kt  - 1)
+Kfs = 1 + qs * (Kts - 1)
 
 # 5. Esfuerzos Nominales
 if d <= 0.01:
